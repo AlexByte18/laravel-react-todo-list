@@ -6,6 +6,7 @@ import Authenticated from '@/Layouts/Authenticated'
 import ValidationErrors from '@/Components/ValidationErrors'
 import TodoStatus from '@/Components/Todos/TodoStatus'
 import TodoForm from '@/Components/Todos/TodoForm'
+import TodoItem from '@/Components/Todos/TodoItem'
 
 export default function TodoList(props){
 
@@ -14,6 +15,21 @@ export default function TodoList(props){
     })
 
     const submitTodo = async () =>{
+        await post ( route("todos.store"), {
+            preserveScroll: true,
+            onSuccess: () => reset( "todo" ),
+        })
+    }
+
+    const restore = async id => {
+
+    }
+
+    const complete = async id => {
+
+    }
+
+    const remove = async id => {
 
     }
 
@@ -42,6 +58,30 @@ export default function TodoList(props){
                             fromData={FormData}
                             addTodo={submitTodo}
                         />
+                    </div>
+
+                    <div>
+                        {
+                            props.todos.lenght === 0 &&
+                            <TodoStatus color='red' message='no hay nada que hacer' />
+                        }
+
+                        {
+                            props.todos.map( todo => {
+                                const className = todo.completed ? 'w-full line-throught text-green-500' : 'w-full text-grey-darkest';
+
+                                return (
+                                    <TodoItem
+                                        key={ todo.id }
+                                        todo={ todo }
+                                        className={ className }
+                                        onRestore={() => restore(todo.id)}
+                                        onComplete={() => complete(todo.id)}
+                                        onRemove={() => remove(todo.id)}
+                                    />
+                                );
+                            })
+                        }
                     </div>
                 </div>
             </div>
