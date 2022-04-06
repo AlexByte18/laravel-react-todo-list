@@ -22,15 +22,21 @@ export default function TodoList(props){
     }
 
     const restore = async id => {
-
+        await put( route('todos.restore', { id }), {
+            preserveScroll: true,
+        })
     }
 
     const complete = async id => {
-
+        await put( route('todos.complete', { id }), {
+            preserveScroll: true,
+        })
     }
 
     const remove = async id => {
-
+        await destroy( route('todos.destroy', { id }), {
+            preserveScroll: true,
+        })
     }
 
     return (

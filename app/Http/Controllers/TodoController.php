@@ -34,4 +34,27 @@ class TodoController extends Controller
 
         return back()->with('status', _('!To do created¡') );
     }
+
+    function restore( int $id){
+        Todo::findOrFail($id)->fill([
+            'completed' => false
+        ])->update();
+
+        return back()->with('status', _('!To do restored¡') );
+    }
+
+    function complete( int $id){
+        Todo::findOrFail($id)->fill([
+            'completed' => true
+        ])->update();
+
+        return back()->with('status', _('!To do completed¡') );
+    }
+
+    function destroy( int $id){
+        $todo = Todo::findOrFail($id);
+        $todo->delete();
+
+        return back()->with('status', _('!To do deleted¡') );
+    }
 }
